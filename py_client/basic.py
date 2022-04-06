@@ -1,9 +1,11 @@
 import requests
+# from rest_framework.test import APIClient
 
 
 endpoint = 'http://localhost:8000/api/'
 
-response = requests.get(endpoint, json={'message': 'hello there'},
-                        params={'user':'pazzo'})
+response1 = requests.post(endpoint, json={'title': 'my product'},
+)
 
-print('echoing back:', response.json())
+
+print('echoing back res1:', response1.json())

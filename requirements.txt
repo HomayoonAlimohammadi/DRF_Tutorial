@@ -4,9 +4,17 @@ certifi==2021.10.8
 charset-normalizer==2.0.12
 Django==4.0.3
 django-cors-headers==3.11.0
+django-filter==21.1
 djangorestframework==3.13.1
+flake8==4.0.1
 idna==3.3
+importlib-metadata==4.11.3
+Markdown==3.3.6
+mccabe==0.6.1
+pycodestyle==2.8.0
+pyflakes==2.4.0
 pytz==2022.1
 requests==2.27.1
 sqlparse==0.4.2
 urllib3==1.26.9
+zipp==3.8.0
