@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework import generics
 from product import serializers, models
 from rest_framework.response import Response
@@ -26,6 +27,27 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         serializer.save(content=content)
 
 
+class ProductUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductSerializer
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        if not instance.content:
+            instance.content = instance.title
+
+
+class ProductDestroyAPIView(generics.DestroyAPIView):
+
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductSerializer
+
+    def perform_destroy(self, instance):
+        print(instance)
+        super().perform_destroy(instance)
+
+
 @api_view(['GET', 'POST'])
 def product_alt_view(request, pk=None, *args, **kwargs):
 
@@ -34,7 +56,10 @@ def product_alt_view(request, pk=None, *args, **kwargs):
     if method == 'GET':
 
         if pk is not None:
-            obj = models.Product.objects.get(pk=pk)
+            try:
+                obj = models.Product.objects.get(pk=pk)
+            except models.Product.DoesNotExist:
+                return Response({'msg': 'not found'}, status=404)
 
             serializer = serializers.ProductSerializer(obj, many=False)
 
