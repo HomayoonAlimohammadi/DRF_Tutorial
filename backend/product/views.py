@@ -26,7 +26,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         serializer.save(content=content)
 
 
-@api_view(methods=['GET', 'POST'])
+@api_view(['GET', 'POST'])
 def product_alt_view(request, pk=None, *args, **kwargs):
 
     method = request.method 
@@ -46,16 +46,18 @@ def product_alt_view(request, pk=None, *args, **kwargs):
         return Response(serializer.data)
     
     elif method == 'POST':
+        print(request.data)
         
         serializer = serializers.ProductSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
+            print(serializer.validated_data)
             title = serializer.validated_data.get('title')
             content = serializer.validated_data.get('content')  
 
-            if not content:
+            if content is None:
                 content = title
 
             serializer.save(content=content)
             return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+        return Response({'msg': 'invalid data'}, status=400)
         
