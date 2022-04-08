@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework import generics
+from rest_framework import generics, mixins, status
 from product import serializers, models
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -46,6 +46,30 @@ class ProductDestroyAPIView(generics.DestroyAPIView):
     def perform_destroy(self, instance):
         print(instance)
         super().perform_destroy(instance)
+
+class ProductMixinView(generics.ListCreateAPIView,
+                       generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductSerializer
+
+    def get(self, request, *args, **kwargs):
+        print(kwargs)
+        pk = kwargs.get('pk')
+        if pk:
+            return self.retrieve(self, request, *args, **kwargs)
+        return self.list(self, request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.is_valid(raise_exception=True)
+        title = serializer.validated_data.get('title')
+        content = serializer.validated_data.get('content')
+
+        if content is not None:
+            content = title
+
+        serializer.save(content=content)
+
 
 
 @api_view(['GET', 'POST'])
