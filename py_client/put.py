@@ -10,9 +10,10 @@ headers = {
 endpoint = 'http://localhost:8000/api/product/1/update/'
 
 data = {
-    'title': 'new title from patch'
+    'title': 'new title from put',
+    'base_price': 99.00
 }
 
-res = requests.patch(endpoint, json=data, headers=headers)
+res = requests.put(endpoint, json=data, headers=headers)
 
 print(res.json())

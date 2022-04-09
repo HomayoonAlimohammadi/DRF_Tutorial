@@ -1,3 +1,4 @@
+from authenticate import authenticate
 import requests
 # from rest_framework.test import APIClient
 

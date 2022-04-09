@@ -1,8 +1,10 @@
 from django.http import Http404
-from rest_framework import generics, mixins, status
+from rest_framework import generics, mixins, status, permissions, \
+                           authentication
 from product import serializers, models
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import permissions
 
 
 class ProductDetailView(generics.RetrieveAPIView):
@@ -52,6 +54,8 @@ class ProductMixinView(generics.ListCreateAPIView,
 
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         print(kwargs)
