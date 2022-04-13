@@ -64,7 +64,6 @@ class ProductMixinView(generics.ListCreateAPIView,
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        print(kwargs)
         pk = kwargs.get('pk')
         if pk:
             return self.retrieve(self, request, *args, **kwargs)

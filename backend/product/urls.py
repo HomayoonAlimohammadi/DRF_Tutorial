@@ -11,8 +11,11 @@ app_name = 'product'
 
 urlpatterns = [ 
     path('', views.ProductMixinView.as_view()),
-    path('<int:pk>/', views.ProductMixinView.as_view()),
-    path('<int:pk>/update/', views.ProductMixinView.as_view()),
+    path('<int:pk>/', views.ProductMixinView.as_view(), name='product-details'),
+    path('<int:pk>/update/', 
+         views.ProductMixinView.as_view(), 
+         name='product-edit'
+    ),
     path('<int:pk>/destroy/', views.ProductMixinView.as_view()),
     # path('', include(router.urls))
 ]
