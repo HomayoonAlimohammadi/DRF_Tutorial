@@ -1,9 +1,37 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.conf import settings
+from django.db.models import Q 
 
 
 User = settings.AUTH_USER_MODEL
+
+class ProductQuerySet(models.QuerySet):
+
+    def is_public(self):
+        return self.filter(is_public=True)
+
+    def search(self, query, user=None, public=True):
+        lookup = Q(title__icontains=query) | Q(content__icontains=query)
+        qs = self.filter(lookup)
+        
+        if user is not None:
+            qs = qs.filter(user=user)
+
+        if public:
+            qs = qs.is_public()
+
+        return qs
+
+class ProductManager(models.Manager):
+
+    def get_queryset(self):
+        return ProductQuerySet(self.model, using=self._db)
+
+    def search(self, query, user=None):
+        qs = self.get_queryset().search(query, user=user)
+        return qs
+
 
 class Product(models.Model):
     
