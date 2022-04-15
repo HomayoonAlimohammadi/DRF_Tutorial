@@ -48,6 +48,8 @@ class Product(models.Model):
         default=0.2,
     )
 
+    objects = ProductManager()
+
     @property
     def sale_price(self):
         return float(self.base_price) * (1- self.discount)
