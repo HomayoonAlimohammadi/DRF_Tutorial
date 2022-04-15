@@ -60,8 +60,8 @@ class ProductMixinView(generics.ListCreateAPIView,
 
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    # authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -77,8 +77,16 @@ class ProductMixinView(generics.ListCreateAPIView,
         if content is not None:
             content = title
 
-        serializer.save(content=content)
+        serializer.save(content=content, user=self.request.user)
 
+    def get_queryset(self):
+        qs = models.Product.objects.all()
+        user = self.request.user
+        try:
+            qs = qs.filter(user=user)
+        except TypeError as e:
+            return qs.none()
+        return qs
 
 
 @api_view(['GET', 'POST'])
