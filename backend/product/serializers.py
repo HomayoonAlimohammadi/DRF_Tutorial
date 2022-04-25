@@ -19,7 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'title', 'url', 'edit_url', 'user', 'email',
+        fields = ['id', 'title', 'url', 'edit_url', 'user', 'email', 'public',
                   'base_price', 'discount', 'sale_price', 'write_only_field']
 
     def get_edit_url(self, instance):
