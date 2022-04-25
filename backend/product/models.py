@@ -1,8 +1,12 @@
+import random
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.conf import settings
 from django.db.models import Q 
+from typing import List
 
+
+TAGS = ['car', 'electronic', 'game']
 
 User = settings.AUTH_USER_MODEL
 
@@ -47,10 +51,17 @@ class Product(models.Model):
         validators=[MinValueValidator(0.0), MaxValueValidator(1.0)],
         default=0.2,
     )
+    public = models.BooleanField(default=True)
 
     objects = ProductManager()
 
     @property
     def sale_price(self):
         return float(self.base_price) * (1- self.discount)
+
+    def get_tag_list(self) -> List:
+        return [random.choice(TAGS)]
+
+    def is_public(self) -> bool:
+        return self.public
 
