@@ -37,8 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third Party APIs 
+    'algoliasearch_django',
+
+    # Third Party Packages
     'rest_framework',
     'rest_framework.authtoken',
+
+    # Internal Packages
     'api',
     'product',
 ]
@@ -133,4 +140,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+}
+
+# API keys below contain actual values tied to your Algolia account
+# Better to use .env file via django-dotenv
+ALGOLIA = {
+  'APPLICATION_ID': '8AS5DZ9WY5',
+  'API_KEY': '1d501a6c37665eb79143a3c8d1e1cb0b'
 }
