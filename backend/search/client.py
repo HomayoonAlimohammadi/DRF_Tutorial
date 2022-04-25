@@ -5,7 +5,7 @@ def get_client():
     return algolia_engine.client
 
 
-def get_index(index_name='cfe_Product'):
+def get_index(index_name='Product'):
     client = get_client()
     index = client.init_index(index_name)
     return index
