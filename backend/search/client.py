@@ -13,5 +13,10 @@ def get_index(index_name='Product'):
 
 def perform_search(query, **kwargs):
     index = get_index()
-    results = index.search(query)
+    tags = ''
+    params = {}
+    if 'tags' in kwargs:
+        tags = kwargs.pop('tags') or []
+        params['tagFilters'] = tags
+    results = index.search(query, params)
     return results

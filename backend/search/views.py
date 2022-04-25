@@ -10,7 +10,8 @@ class SearchListView(generics.GenericAPIView):
     
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q')
-        results = client.perform_search(query)
+        tags = request.GET.get('tags') or None
+        results = client.perform_search(query, tags=tags)
         
         if not query:
             return Response('', status=400)
