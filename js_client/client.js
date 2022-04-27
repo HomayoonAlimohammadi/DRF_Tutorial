@@ -26,11 +26,44 @@ function handleLogin(event) {
     console.log(bodyStr)
     fetch(loginEndpoint, options)
     .then(response => {
+        return response.json()
+    })
+    .then(authData => {
+        handleAuthData(authData, getProductList)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+function handleAuthData(authData, callback) {
+    localStorage.setItem('access', authData.access)
+    localStorage.setItem('refresh', authData.refresh)
+    if (callback) {
+        callback()
+    }
+}
+
+function getProductList() {
+    const productEndpoint = `${baseEndpoint}/product/`
+    const productDiv = document.getElementById('product-list')
+    const options = {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access')}`
+        }
+    }
+    fetch(productEndpoint, options)
+    .then(response => {
         console.log(response)
         return response.json()
     })
     .then(data => {
         console.log(data)
+        productDiv.innerHTML = "<pre>" + JSON.stringify(data, null, 4) + "</pre>"
     })
-
+    .catch(err => {
+        console.log(err)
+    })
 }
