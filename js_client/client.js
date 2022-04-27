@@ -17,9 +17,9 @@ function handleLogin(event) {
     let loginObjectData = Object.fromEntries(loginFormData)
     let bodyStr = JSON.stringify(loginObjectData)
     const options = {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "content-type": "application/json"
         },
         body: bodyStr
     }

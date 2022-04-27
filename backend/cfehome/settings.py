@@ -68,6 +68,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'cfehome.urls'
 
+CORS_URLS_REGEX = r"^/api/.*"
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8111',
+    'http://0.0.0.0:8111',
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -164,8 +171,3 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
 }
 
-CORS_URLS_REGEX = r'^/api/.*'
-
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8111',
-]
