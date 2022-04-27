@@ -23,6 +23,7 @@ function handleLogin(event) {
         },
         body: bodyStr
     }
+    console.log(bodyStr)
     fetch(loginEndpoint, options)
     .then(response => {
         console.log(response)

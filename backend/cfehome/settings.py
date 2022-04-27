@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import datetime 
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     # Third Party Packages
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
 
     # Internal Packages
     'api',
@@ -140,7 +143,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
 }
 
 # API keys below contain actual values tied to your Algolia account
@@ -148,4 +154,10 @@ REST_FRAMEWORK = {
 ALGOLIA = {
   'APPLICATION_ID': '8AS5DZ9WY5',
   'API_KEY': '1d501a6c37665eb79143a3c8d1e1cb0b'
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ['Bearer'],
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(seconds=30),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(minutes=1),
 }
